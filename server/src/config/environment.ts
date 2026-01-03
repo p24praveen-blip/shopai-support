@@ -6,8 +6,19 @@ import fs from 'fs';
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 // Handle GCP credentials from Railway environment
-// Railway passes credentials as JSON string in GOOGLE_APPLICATION_CREDENTIALS_JSON
-if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
+// Try base64 encoded version first (more reliable), then raw JSON
+if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
+    try {
+        const credentialsPath = '/tmp/gcp-credentials.json';
+        const credentialsJson = Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64, 'base64').toString('utf-8');
+        JSON.parse(credentialsJson); // Validate
+        fs.writeFileSync(credentialsPath, credentialsJson);
+        process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath;
+        console.log('✅ GCP credentials loaded from base64 environment variable');
+    } catch (error) {
+        console.error('❌ Failed to decode base64 GCP credentials:', error);
+    }
+} else if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
     try {
         const credentialsPath = '/tmp/gcp-credentials.json';
         let credentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
@@ -25,7 +36,7 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
         
         fs.writeFileSync(credentialsPath, credentialsJson);
         process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath;
-        console.log('✅ GCP credentials loaded from environment variable');
+        console.log('✅ GCP credentials loaded from JSON environment variable');
     } catch (error) {
         console.error('❌ Failed to write GCP credentials:', error);
         console.error('Raw credentials preview:', process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON?.substring(0, 100));
