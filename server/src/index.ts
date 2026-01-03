@@ -156,14 +156,15 @@ const startServer = async () => {
         // Initialize database
         initializeDatabase();
 
-        // Start server
-        app.listen(config.port, () => {
+        // Start server - bind to 0.0.0.0 for Railway/Docker
+        const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+        app.listen(config.port, host, () => {
             console.log(`
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
 ║   🤖 ShopAI Support Backend                               ║
 ║                                                           ║
-║   Server running on: http://localhost:${config.port}               ║
+║   Server running on: http://${host}:${config.port}                    ║
 ║   GCP Project: ${config.googleCloud.project.slice(0, 25).padEnd(25)}          ║
 ║   AI Model: ${config.googleCloud.model.padEnd(25)}              ║
 ║                                                           ║
