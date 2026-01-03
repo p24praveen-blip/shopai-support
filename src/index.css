@@ -1,0 +1,248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    /* Media.net Inspired Colors */
+    --lavender-bg: 260 20% 96%;
+    --lavender-subtle: 260 15% 92%;
+    --navy-dark: 240 30% 16%;
+    --magenta: 340 82% 52%;
+    --magenta-light: 340 82% 60%;
+    --purple-accent: 280 60% 55%;
+    --coral: 12 90% 62%;
+    
+    /* Semantic Colors */
+    --background: 260 20% 96%;
+    --foreground: 240 30% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 30% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 30% 16%;
+
+    --primary: 340 82% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 260 15% 92%;
+    --secondary-foreground: 240 30% 16%;
+
+    --muted: 260 15% 92%;
+    --muted-foreground: 240 15% 45%;
+
+    --accent: 280 60% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 69% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 32 95% 55%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 260 15% 88%;
+    --input: 260 15% 88%;
+    --ring: 340 82% 52%;
+
+    --radius: 1rem;
+
+    /* Sidebar - Dark theme like Media.net nav */
+    --sidebar-background: 240 30% 16%;
+    --sidebar-foreground: 260 15% 85%;
+    --sidebar-primary: 340 82% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 25% 22%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 240 25% 22%;
+    --sidebar-ring: 340 82% 52%;
+
+    /* Gradients - Media.net uses magenta to purple/coral curves */
+    --gradient-primary: linear-gradient(135deg, hsl(340 82% 52%), hsl(280 60% 55%));
+    --gradient-curve: linear-gradient(180deg, hsl(340 82% 52%), hsl(12 90% 62%));
+    --gradient-subtle: linear-gradient(135deg, hsl(260 20% 96%), hsl(260 15% 92%));
+
+    /* Shadows - Softer, more diffused */
+    --shadow-sm: 0 2px 8px -2px rgb(0 0 0 / 0.06);
+    --shadow-card: 0 4px 20px -4px rgb(0 0 0 / 0.08);
+    --shadow-elevated: 0 12px 40px -8px rgb(0 0 0 / 0.12);
+    --shadow-glow: 0 0 30px hsl(340 82% 52% / 0.25);
+  }
+
+  .dark {
+    --background: 240 30% 10%;
+    --foreground: 260 15% 95%;
+
+    --card: 240 30% 14%;
+    --card-foreground: 260 15% 95%;
+
+    --popover: 240 30% 14%;
+    --popover-foreground: 260 15% 95%;
+
+    --primary: 340 82% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 25% 20%;
+    --secondary-foreground: 260 15% 95%;
+
+    --muted: 240 25% 18%;
+    --muted-foreground: 260 10% 60%;
+
+    --accent: 280 60% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 240 25% 22%;
+    --input: 240 25% 22%;
+
+    --sidebar-background: 240 30% 8%;
+    --sidebar-accent: 240 25% 14%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-foreground;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Media.net style floating card */
+  .glass-card {
+    @apply bg-card/95 backdrop-blur-md border border-border/40 shadow-card rounded-2xl;
+  }
+
+  /* Stat cards with subtle hover lift */
+  .stat-card {
+    @apply bg-card rounded-2xl p-6 shadow-card border border-border/30 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1;
+  }
+
+  /* Navigation items with magenta accent */
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sidebar-foreground/70 transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-foreground relative;
+  }
+
+  .nav-item-active {
+    @apply bg-sidebar-accent text-white;
+  }
+
+  .nav-item-active::before {
+    content: '';
+    @apply absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full;
+    background: linear-gradient(180deg, hsl(340 82% 52%), hsl(12 90% 62%));
+  }
+
+  /* Gradient text like Media.net "Reach." */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .gradient-bg {
+    background-image: var(--gradient-primary);
+  }
+
+  /* Chat bubbles */
+  .chat-bubble-customer {
+    @apply bg-secondary text-foreground rounded-2xl rounded-bl-md px-4 py-3 max-w-[80%];
+  }
+
+  .chat-bubble-ai {
+    @apply text-white rounded-2xl rounded-br-md px-4 py-3 max-w-[80%];
+    background-image: var(--gradient-primary);
+  }
+
+  /* Priority badges */
+  .badge-priority-high {
+    @apply bg-destructive/10 text-destructive border border-destructive/20 font-medium;
+  }
+
+  .badge-priority-medium {
+    @apply bg-warning/10 text-warning border border-warning/20 font-medium;
+  }
+
+  .badge-priority-low {
+    @apply bg-accent/10 text-accent border border-accent/20 font-medium;
+  }
+
+  /* Status badges */
+  .badge-status-open {
+    @apply bg-success/10 text-success border border-success/20 font-medium;
+  }
+
+  .badge-status-escalated {
+    @apply bg-warning/10 text-warning border border-warning/20 font-medium;
+  }
+
+  .badge-status-resolved {
+    @apply bg-muted text-muted-foreground border border-border font-medium;
+  }
+
+  /* Media.net style button */
+  .btn-primary {
+    @apply px-6 py-3 rounded-full font-semibold text-white transition-all duration-300 hover:shadow-glow hover:scale-105;
+    background-image: var(--gradient-primary);
+  }
+
+  /* Decorative curve element inspired by Media.net */
+  .curve-accent {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient-curve);
+    opacity: 0.15;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+}
