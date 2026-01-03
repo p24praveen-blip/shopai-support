@@ -65,3 +65,6 @@ bun.lockb
 # Google Cloud credentials (never commit these!)
 application_default_credentials.json
 *.json.backup
+# Database files
+server/data/*.db-shm
+server/data/*.db-wal
