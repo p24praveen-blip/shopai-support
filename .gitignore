@@ -68,3 +68,5 @@ application_default_credentials.json
 # Database files
 server/data/*.db-shm
 server/data/*.db-wal
+.vercel
+.env*.local

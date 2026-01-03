@@ -10,11 +10,25 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
     try {
         const credentialsPath = '/tmp/gcp-credentials.json';
-        fs.writeFileSync(credentialsPath, process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+        let credentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+        
+        // Fix escaped characters if Railway double-escaped the JSON
+        if (credentialsJson.includes('\\n') || credentialsJson.includes('\\"')) {
+            credentialsJson = credentialsJson
+                .replace(/\\n/g, '\n')
+                .replace(/\\"/g, '"')
+                .replace(/\\\\/g, '\\');
+        }
+        
+        // Validate it's valid JSON before writing
+        JSON.parse(credentialsJson);
+        
+        fs.writeFileSync(credentialsPath, credentialsJson);
         process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath;
         console.log('✅ GCP credentials loaded from environment variable');
     } catch (error) {
         console.error('❌ Failed to write GCP credentials:', error);
+        console.error('Raw credentials preview:', process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON?.substring(0, 100));
     }
 }
 
