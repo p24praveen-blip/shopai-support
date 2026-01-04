@@ -696,6 +696,23 @@ export default function LiveChat() {
 
         {/* Customer Info Sidebar */}
         <div className="w-80 border-l border-border bg-card overflow-y-auto">
+          {/* Info Banner - shows when no customer context */}
+          {!customerContext && (
+            <div className="p-4 bg-primary/5 border-b border-primary/20">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground">Customer details appear here</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Start a conversation to see customer profile, order history, and AI-powered insights.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {/* Customer Profile */}
           <div className="p-6 border-b border-border">
             <div className="text-center mb-4">
