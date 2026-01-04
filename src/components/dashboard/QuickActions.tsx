@@ -1,6 +1,6 @@
 import { MessageSquarePlus, AlertTriangle, Brain, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const actions = [
   {
@@ -25,15 +25,13 @@ const actions = [
 ];
 
 export function QuickActions() {
-  const [showNudge, setShowNudge] = useState(false);
-
-  useEffect(() => {
-    // Check if user has interacted before
-    const hasInteracted = localStorage.getItem('shopai_has_started_chat');
-    if (!hasInteracted) {
-      setShowNudge(true);
+  // Initialize based on localStorage (check immediately, not just in useEffect)
+  const [showNudge, setShowNudge] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !localStorage.getItem('shopai_has_started_chat');
     }
-  }, []);
+    return true;
+  });
 
   const handleStartChatClick = () => {
     localStorage.setItem('shopai_has_started_chat', 'true');
